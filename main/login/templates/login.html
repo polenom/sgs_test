@@ -1,0 +1,9 @@
+{% extends 'base_login.html' %}
+{% block form %}
+    {% csrf_token %}
+    {{form.as_div}}
+    <div style="margin-top: 2%">
+        <button type="submit" class="button small">login</button>
+    </div>
+    <a href="{% url 'login:registration_user' %}" class=" small">registration</a>
+{% endblock %}

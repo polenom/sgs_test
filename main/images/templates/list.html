@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block body %}
+    <form method="get" class="form_filter">
+        {{filter.form.as_div}}
+        <div style="align-self: end">
+            <button type="submit" class="button small" style="line-height: 2em">filter</button>
+        </div>
+    </form>
+    <div style="margin-top: 2%">
+        <a href="{% url 'images:create_image' %}" class="button medium" style="background: #7b1e9f;">create</a>
+    </div>
+{% endblock %}
+
+{% block extra %}
+	<div class="row no-collapse-1">
+		{% for image in object_list%}
+			<section class="4u photo_elements" style="margin-bottom: 1em">
+				<div>
+					<a  class="image featured">
+						<img src="{{image.image_file.url}}" alt="" width="360" height="360" class="images" loading="lazy">
+					</a>
+					<div class="box">
+						<p>{{image.title}}</p>
+						<div class="add_information">
+								<div>palette color</div>
+								<div style="display: flex; gap: 2px;margin: auto;justify-content: space-between">
+								{% for color, number in image.palette_color %}
+									<div>
+										<div class="cell_color" style="background: {{color}}">
+										</div>
+										<div>{{number}}</div>
+									</div>
+								{% endfor %}
+								</div>
+
+								<div>predominant color</div>
+								<div class="cell_color" style="background: {{image.predominant_color}}"></div>
+								<div>average color</div>
+								<div class="cell_color" style="background: {{image.average_color}}">
+								</div>
+
+						</div>
+						<div style="margin-top: 5px">
+							<a href="{% url 'images:update_image' pk=image.pk %}" class="button small">update</a>
+							<a href="{% url 'images:delete_image' pk=image.pk %}" class="button small">delete</a>
+						</div>
+					</div>
+				</div>
+			</section>
+		{% endfor %}
+	</div>
+{% include 'paginator.html' %}
+{% endblock%}
+
+{% block script %}
+	const image_elements = document.querySelectorAll("section.photo_elements")
+	image_elements.forEach((section_elem) => {
+		section_elem.addEventListener("click", (e) => {
+			if (e.target.classList.contains("button")) {
+				return
+			}
+			if (section_elem.classList.contains("click")) {
+				section_elem.classList.remove("click")
+			} else {
+				let click_element = document.querySelector("section.click")
+				if (click_element) {
+					click_element.classList.remove("click")
+				}
+				section_elem.classList.add("click")
+			}
+
+		})
+	})
+{% endblock %}
+

@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    restart: always
+    working_dir: /app
+    environment:
+      DJANGO_SUPERUSER_PASSWORD: admin
+      DJANGO_SUPERUSER_USERNAME: admin
+      DJANGO_SUPERUSER_EMAIL: admin@admin.by
+    command: bash -c """
+          poetry run python /app/main/manage.py migrate &&
+          poetry run python /app/main/manage.py creatadmin --no-input &&
+          poetry run python /app/main/manage.py runserver 0.0.0.0:8000
+        """
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: "django"
+      POSTGRES_USER: "django"
+      POSTGRES_PASSWORD: "django"

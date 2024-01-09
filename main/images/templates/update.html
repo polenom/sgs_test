@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block body %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_div}}
+        <button type="submit" class="button small">update</button>
+    </form>
+    <div>{{object.create_time}}</div>
+    <div>palette color</div>
+    <div style="display: flex; gap: 2px;margin: auto;justify-content: space-between">
+    {% for color, number in object.palette_color %}
+        <div>
+            <div class="cell_color" style="background: {{color}}">
+            </div>
+            <div>{{number}}</div>
+        </div>
+    {% endfor %}
+    </div>
+
+    <div>predominant color</div>
+    <div class="cell_color" style="background: {{object.predominant_color}}"></div>
+    <div>average color</div>
+    <div class="cell_color" style="background: {{object.average_color}}">
+    </div>
+{% endblock %}
