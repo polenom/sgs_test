@@ -10,11 +10,11 @@
 1. Склонируйте репозиторий:
 
    ```bash
-   git clone https://github.com/ваш-локальный-репозиторий.git
-   cd ваш-локальный-репозиторий
+   git clone https://github.com/polenom/sgs_test.git
+   cd sgs_test
    ```
 2. Запустите Docker Compose:
-   ```bash
+   ```
    docker-compose up --build
    При первом запуске Docker Compose автоматически выполнит миграции
    django и создаст суперпользователя.
